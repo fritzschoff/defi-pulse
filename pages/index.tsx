@@ -32,6 +32,7 @@ const Home: NextPage = () => {
   };
 
   useEffect(() => {
+    fetchGasInformation();
     const interval = setInterval(
       () => {
         fetchGasInformation();
