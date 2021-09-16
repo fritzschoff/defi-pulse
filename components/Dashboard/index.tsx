@@ -6,6 +6,9 @@ export default function Dashboard({ ...gasData }: GasStationAPIRespond) {
   return (
     <div className={styles.container}>
       <h2>Overview</h2>
+      <h4 className={styles.newBlock} key={gasData.blockNum}>
+        New Block
+      </h4>
       <span>
         Current block number: &nbsp;
         <a
@@ -15,7 +18,7 @@ export default function Dashboard({ ...gasData }: GasStationAPIRespond) {
           {gasData.blockNum}
         </a>
       </span>
-      <span>Block time: {gasData.block_time.toFixed(0)} seconds</span>
+      <span>Block time: ~ {gasData.block_time.toFixed(0)} seconds</span>
       <Row title="Fastest">
         Cost: {gasData.fastest / 10} Gwei - Estimated time:&nbsp;
         {gasData.fastestWait} seconds

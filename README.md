@@ -10,5 +10,5 @@ For Windows use:
 
 Then assign the api key and the base uri to their variables.
 
-<b>Don't forget to whitelist your domain in the defi-pulse dashboard</b>
+<b>Don't forget to whitelist your domain in the defi-pulse data dashboard</b>
 `https://data-beta.defipulse.com/dashboard/egs`

@@ -1,20 +1,20 @@
 import styles from "@styles/Header.module.scss";
 
 interface HeaderProps {
-  automaticRefetch: (value: boolean) => void;
+  autoRefetch: (value: boolean) => void;
 }
 
-export default function Header({ automaticRefetch }: HeaderProps) {
+export default function Header({ autoRefetch }: HeaderProps) {
   return (
     <header className={styles.header}>
       <h1>See the latest gas prices</h1>
-      <label htmlFor="automaticRefetch">
-        Automatic refetch new blocks?
+      <label htmlFor="autoRefetch">
+        Auto Refetching
         <input
-          id="automaticRefetch"
-          name="automaticRefetch"
+          id="autoRefetch"
+          name="autoRefetch"
           type="checkbox"
-          onChange={(e) => automaticRefetch(e.target.checked)}
+          onChange={(e) => autoRefetch(e.target.checked)}
         />
       </label>
     </header>
