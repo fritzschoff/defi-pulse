@@ -1,8 +1,46 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import styles from "../styles/Home.module.scss";
+import { useEffect, useState } from "react";
+import Error from "@components/Error";
+import { GasStationAPIRespond } from "@interfaces/gas-station.interface";
+import Dashboard from "@components/Dashboard";
+import styles from "@styles/Home.module.scss";
+import Header from "@components/Header";
 
 const Home: NextPage = () => {
+  const [gasAPIData, setGasAPIData] = useState<GasStationAPIRespond | null>(
+    null
+  );
+  const [apiError, setError] = useState<string>("");
+  const [automaticRefetch, setAutomaticRefetch] = useState(false);
+
+  const fetchGasInformation = async () => {
+    const gasStationAPIRespond = fetch(`${location.origin}/api/gas-station`);
+    gasStationAPIRespond.then((res) =>
+      res
+        .json()
+        .catch((error) =>
+          setError(error?.message ? error.message : "Failed to fetch data")
+        )
+        .then((data) => setGasAPIData(data))
+    );
+  };
+
+  const refetchGasStationData = () => {
+    if (gasAPIData?.block_time && automaticRefetch)
+      setTimeout(() => {
+        fetchGasInformation().finally(refetchGasStationData);
+      }, gasAPIData.block_time * 1000);
+  };
+
+  useEffect(() => {
+    fetchGasInformation();
+  }, []);
+
+  useEffect(() => {
+    if (automaticRefetch) refetchGasStationData();
+  }, [automaticRefetch]);
+
   return (
     <div className={styles.container}>
       <Head>
@@ -11,7 +49,27 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}></main>
+      <Header automaticRefetch={setAutomaticRefetch} />
+
+      <main className={styles.main}>
+        {apiError && (
+          <>
+            <Error message={apiError} />
+            <button
+              onClick={() => {
+                setError("");
+                refetchGasStationData();
+              }}
+              className={styles.retryButton}
+            >
+              Retry
+            </button>
+          </>
+        )}
+        {gasAPIData && !apiError && <Dashboard {...gasAPIData} />}
+
+        {!gasAPIData && !apiError && <h1>Loading...</h1>}
+      </main>
 
       <footer className={styles.footer}>
         Coding Assignment made by:&nbsp;

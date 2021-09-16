@@ -8,7 +8,11 @@ body {
 
 a {
   color: inherit;
-  text-decoration: none;
+
+  &:visited {
+    color: grey;
+    text-decoration-color: grey;
+  }
 }
 
 * {
