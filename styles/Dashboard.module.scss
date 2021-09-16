@@ -2,16 +2,6 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  animation: slideIn 500ms forwards;
-}
-
-@keyframes slideIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
 }
 
 .newBlock {
