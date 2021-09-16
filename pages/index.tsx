@@ -15,7 +15,6 @@ const Home: NextPage = () => {
   const [apiError, setError] = useState<string>("");
 
   const fetchGasInformation = async () => {
-    console.log("refetching");
     try {
       const gasStationAPIResponse = await fetch(
         `${location.origin}/api/gas-station`
