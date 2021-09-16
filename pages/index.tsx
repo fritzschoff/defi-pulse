@@ -13,35 +13,35 @@ const Home: NextPage = () => {
     null
   );
   const [apiError, setError] = useState<string>("");
-  const [automaticRefetch, setAutomaticRefetch] = useState(false);
 
   const fetchGasInformation = async () => {
-    const gasStationAPIRespond = fetch(`${location.origin}/api/gas-station`);
-    gasStationAPIRespond
-      .then((res) => res.json())
-      .catch((error) =>
-        setError(error?.message ? error.message : "Failed to fetch data")
-      )
-      .then((data) => setGasAPIData(data));
-  };
-
-  const refetchGasStationData = () => {
-    if (automaticRefetch)
-      setTimeout(
-        () => {
-          fetchGasInformation().finally(refetchGasStationData);
-        },
-        gasAPIData?.block_time ? gasAPIData.block_time * 1000 : 10000
+    console.log("refetching");
+    try {
+      const gasStationAPIRespond = await fetch(
+        `${location.origin}/api/gas-station`
       );
+      const gasStationData: GasStationAPIRespond =
+        await gasStationAPIRespond.json();
+      // If block number is the same, no reason to update
+      if (gasStationData.blockNum !== gasAPIData?.blockNum) {
+        setGasAPIData(gasStationData);
+      }
+    } catch (error: any) {
+      setError(error?.message ? error.message : "Failed to fetch data");
+    }
   };
 
   useEffect(() => {
-    fetchGasInformation();
+    const interval = setInterval(
+      () => {
+        fetchGasInformation();
+      },
+      gasAPIData?.block_time ? gasAPIData.block_time * 1000 : 15000
+    );
+    return () => {
+      clearInterval(interval);
+    };
   }, []);
-
-  useEffect(() => {
-    if (automaticRefetch) refetchGasStationData();
-  }, [automaticRefetch]);
 
   return (
     <div className={styles.container}>
@@ -54,7 +54,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Header autoRefetch={setAutomaticRefetch} />
+      <Header />
 
       <main className={styles.main}>
         {apiError && (

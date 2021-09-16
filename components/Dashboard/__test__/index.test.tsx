@@ -1,6 +1,5 @@
-import Header from "@components/Header";
 import { GasStationAPIRespond } from "@interfaces/gas-station.interface";
-import { render, screen } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import Dashboard from "..";
 
 describe("Dashboard", () => {

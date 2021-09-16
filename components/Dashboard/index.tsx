@@ -14,6 +14,7 @@ export default function Dashboard({ ...gasData }: GasStationAPIRespond) {
         <a
           href={`https://etherscan.io/block/${gasData.blockNum}`}
           target="_blank"
+          rel="noreferrer"
         >
           {gasData.blockNum}
         </a>
