@@ -8,12 +8,10 @@ export default async function handler(
     !process.env["GAS_STATION_API_URI"] &&
     !process.env["GAS_STATION_API_KEY"]
   )
-    res
-      .status(404)
-      .json({ error: "Gas station API key or URI are not defined" });
+    return res.status(404);
 
   try {
-    if (req.method !== "GET") res.status(405).json("Forbidden request");
+    if (req.method !== "GET") return res.status(405);
 
     const requestToGasStation = await fetch(
       process.env["GAS_STATION_API_URI"]!.concat(
@@ -22,8 +20,8 @@ export default async function handler(
     );
 
     const parsedRequest = await requestToGasStation.json();
-    res.status(200).json(parsedRequest);
+    return res.status(200).json(parsedRequest);
   } catch (error) {
-    res.status(400).json({ error });
+    return res.status(400);
   }
 }

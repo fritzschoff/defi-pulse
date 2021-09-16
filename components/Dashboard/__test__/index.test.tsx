@@ -1,9 +1,9 @@
-import { GasStationAPIRespond } from "@interfaces/gas-station.interface";
-import { render } from "@testing-library/react";
+import { GasStationAPIResponse } from "@interfaces/gas-station.interface";
+import { render, screen } from "@testing-library/react";
 import Dashboard from "..";
 
 describe("Dashboard", () => {
-  const mockGasData: GasStationAPIRespond = {
+  const mockGasData: GasStationAPIResponse = {
     average: 3,
     avgWait: 3,
     blockNum: 1337,
@@ -25,5 +25,14 @@ describe("Dashboard", () => {
     const { container } = render(<Dashboard {...mockGasData} />);
     const rows = container.getElementsByClassName("row");
     expect(rows.length).toBe(4);
+  });
+
+  it("should render the link to etherscan", () => {
+    render(<Dashboard {...mockGasData} />);
+    const link = screen.getByText(mockGasData.blockNum.toString());
+    expect(link.hasAttribute("href")).toBe(true);
+    expect(link.getAttribute("href")).toBe(
+      `https://etherscan.io/block/${mockGasData.blockNum}`
+    );
   });
 });

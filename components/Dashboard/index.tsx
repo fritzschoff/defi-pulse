@@ -1,8 +1,8 @@
 import Row from "@components/Row";
-import { GasStationAPIRespond } from "@interfaces/gas-station.interface";
+import { GasStationAPIResponse } from "@interfaces/gas-station.interface";
 import styles from "@styles/Dashboard.module.scss";
 
-export default function Dashboard({ ...gasData }: GasStationAPIRespond) {
+export default function Dashboard({ ...gasData }: GasStationAPIResponse) {
   return (
     <div className={styles.container}>
       <h2>Overview</h2>

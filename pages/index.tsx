@@ -2,14 +2,14 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import Error from "@components/Error";
-import { GasStationAPIRespond } from "@interfaces/gas-station.interface";
+import { GasStationAPIResponse } from "@interfaces/gas-station.interface";
 import Dashboard from "@components/Dashboard";
 import styles from "@styles/Home.module.scss";
 import Header from "@components/Header";
 import Footer from "@components/Footer";
 
 const Home: NextPage = () => {
-  const [gasAPIData, setGasAPIData] = useState<GasStationAPIRespond | null>(
+  const [gasAPIData, setGasAPIData] = useState<GasStationAPIResponse | null>(
     null
   );
   const [apiError, setError] = useState<string>("");
@@ -17,11 +17,11 @@ const Home: NextPage = () => {
   const fetchGasInformation = async () => {
     console.log("refetching");
     try {
-      const gasStationAPIRespond = await fetch(
+      const gasStationAPIResponse = await fetch(
         `${location.origin}/api/gas-station`
       );
-      const gasStationData: GasStationAPIRespond =
-        await gasStationAPIRespond.json();
+      const gasStationData: GasStationAPIResponse =
+        await gasStationAPIResponse.json();
       // If block number is the same, no reason to update
       if (gasStationData.blockNum !== gasAPIData?.blockNum) {
         setGasAPIData(gasStationData);

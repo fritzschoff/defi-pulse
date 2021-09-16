@@ -1,4 +1,4 @@
-export interface GasStationAPIRespond {
+export interface GasStationAPIResponse {
   fastest: number;
   fast: number;
   average: number;
